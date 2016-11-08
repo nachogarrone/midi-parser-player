@@ -19,7 +19,9 @@ export class PlayerController {
 
   parse() {
     console.log(this.$scope.text);
-    this.$http.get('/api/parsers/' + this.$scope.text)
+    var myObj = {};
+    myObj["input"] = this.$scope.text;
+    this.$http.post('/api/parsers', myObj)
       .then(response => {
         this.parseResult = response.statusText;
       })
