@@ -14,10 +14,10 @@ class NodoNota {
         this.nombreNota = nombreNota;
     }
 
-    constructor(nombreNota, alteracion) {
-        this.nombreNota = nombreNota;
-        this.alteracion = alteracion;
-    }
+    // constructor(nombreNota, alteracion) {
+    //     this.nombreNota = nombreNota;
+    //     this.alteracion = alteracion;
+    // }
 
     function
 
