@@ -13,18 +13,3 @@ BarraDivisoriaEnum.initEnum({
   INICIO_REPETICION: "|:",
   FIN_REPETICION: ":|"
 });
-
-// var div;
-
-// constructor(div) {
-//     this.div = div;
-// }
-//
-// function getDiv() {
-//     return div;
-// }
-//
-// function setDiv(div) {
-//     this.div = div;
-// }
-// }

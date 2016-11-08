@@ -14,21 +14,3 @@ AlteracionEnum.initEnum({
   DOBLE_BEMOL: "@@",
   BECUADRO: "n"
 });
-
-// var
-//   alteracion;
-
-// constructor(alteracion)
-// {
-//   this.alteracion = alteracion;
-// }
-
-// getDiv()
-// {
-//   return this.alteracion;
-// }
-//
-// setDiv(div)
-// {
-//   this.alteracion = div;
-// }
