@@ -1,14 +1,13 @@
+'use strict';
+
 /**
  * Created by Emanuel Chalela on 2/11/2016.
  */
 
 class NodoNota {
 
-
-    var
-    nombreNota;
-    var
-    alteracion;
+    //var nombreNota;
+    //var alteracion;
 
     constructor(nombreNota) {
         this.nombreNota = nombreNota;
@@ -18,8 +17,6 @@ class NodoNota {
     //     this.nombreNota = nombreNota;
     //     this.alteracion = alteracion;
     // }
-
-    function
 
     unparse() {
         switch (nombreNota) {
@@ -41,13 +38,9 @@ class NodoNota {
         return null;
     }
 
-    function
-
     toString() {
         return "NodoNota [nombreNota=" + this.nombreNota + ", alteracion=" + this.alteracion + "]";
     }
-
-    function
 
     hashCode() {
         var prime = 31;
@@ -56,8 +49,6 @@ class NodoNota {
         result = prime * result + ((nombreNota == null) ? 0 : nombreNota.hashCode());
         return result;
     }
-
-    function
 
     equals(obj) {
         if (this == obj)

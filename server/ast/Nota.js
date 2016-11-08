@@ -17,8 +17,6 @@ class Nota extends Simbolo {
     this.valor = valor;
   }
 
-  function
-
   unparse() {
     var figura = "";
     switch (this.valor) {
@@ -40,14 +38,10 @@ class Nota extends Simbolo {
     return "";
   }
 
-  function
-
   semanticCheck(state) {
     // TODO Auto-generated method stub
     return null;
   }
-
-  function
 
   compileMIDI(state, track) {
     var valorNota = 0.0;
@@ -117,13 +111,9 @@ class Nota extends Simbolo {
     return state;
   }
 
-  function
-
   toString() {
     return "Nota [notas=" + this.notas.toString() + ", octava=" + this.octava + ", valor=" + this.valor + "]";
   }
-
-  function
 
   hashCode() {
     var prime = 31;
@@ -133,8 +123,6 @@ class Nota extends Simbolo {
     result = prime * result + ((this.valor == null) ? 0 : this.valor.hashCode());
     return result;
   }
-
-  function
 
   equals(obj) {
     if (this == obj)
@@ -161,8 +149,6 @@ class Nota extends Simbolo {
     }
     return false;
   }
-
-  function
 
   addNote(track, startTick, tickLength, key) {
     var on = new ShortMessage();

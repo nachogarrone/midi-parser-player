@@ -14,19 +14,3 @@ TimeEnum.initEnum({
   CUATRO_CUATRO: "4/4",
   C: "C"
 });
-
-//     var time;
-//
-//     constructor(time) {
-//         this.time = time;
-//     }
-//
-//     function getDiv() {
-//         return time;
-//     }
-//
-//     function setDiv(div) {
-//         this.time = div;
-//     }
-//
-// }

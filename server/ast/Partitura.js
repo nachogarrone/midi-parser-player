@@ -21,14 +21,10 @@ class Partitura extends Stmt {
     this.bpm = bpm;
   }
 
-  function
-
   unparse() {
     // TODO Auto-generated method stub
     return null;
   }
-
-  function
 
   semanticCheck(state) {
     state.variablesPartitura.put("this.bpm", this.this.bpm);
@@ -46,8 +42,6 @@ class Partitura extends Stmt {
     return state;
   }
 
-  function
-
   compileMIDI(state, fileMidi) {
     var seq = new Sequence(Sequence.PPQ, 4);
     var track = seq.createTrack();
@@ -59,20 +53,14 @@ class Partitura extends Stmt {
     return state;
   }
 
-  function
-
   toString() {
     return "Partitura [this.compases=" + this.compases.toString() + ", this.time=" + this.time + ", this.bpm=" + this.bpm + "]";
   }
-
-  function
 
   hashCode() {
     // TODO Auto-generated method stub
     return 0;
   }
-
-  function
 
   equals(obj) {
     // TODO Auto-generated method stub
