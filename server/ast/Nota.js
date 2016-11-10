@@ -3,15 +3,9 @@
 /**
  * Created by Emanuel Chalela on 2/11/2016.
  */
-class Nota extends Simbolo {
-
-
-  // var notas;
-  // var octava;
-  // var valor;
+class Nota {
 
   constructor(notas, octava, valor) {
-    super();
     this.notas = notas;
     this.octava = octava;
     this.valor = valor;

@@ -5,6 +5,10 @@
  */
 class Simbolo {
 
+  constructor(){
+
+  }
+
   unparse() {
   }
 
@@ -33,19 +37,19 @@ class Simbolo {
     var min = 0;
     var max = TERMINAL_COUNT + NONTERMINAL_COUNT;
     var i = getRandom(min, max);
-    switch (i) {
-      // Terminals
-      case 0:
-        return Silencio.generate(random, min - 1, max - 1);
-      // Non terminals
-      case 1:
-        return Nota.generate(random, min - 1, max - 1);
-
-//		case 4:
-//			return ListaCompas.generate(random, min - 1, max - 1);
-      default:
-        throw new Error("Unexpected error at Stmt.generate()!");
-    }
+//     switch (i) {
+//       // Terminals
+//       case 0:
+//         return Silencio.generate(random, min - 1, max - 1);
+//       // Non terminals
+//       case 1:
+//         return Nota.generate(random, min - 1, max - 1);
+//
+// //		case 4:
+// //			return ListaCompas.generate(random, min - 1, max - 1);
+//       default:
+//         throw new Error("Unexpected error at Stmt.generate()!");
+//     }
   }
 
 }
