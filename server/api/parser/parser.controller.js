@@ -12,7 +12,7 @@
 
 import jsonpatch from 'fast-json-patch';
 import Parser from './parser.model';
-var Nota = require('../../ast/Nota');
+import Nota from './ast/Nota';
 var JParser = require('jison').Parser;
 var stringify = require('node-stringify');
 
@@ -43,22 +43,22 @@ var grammar = {
     // "numero" :[ "numero NUM", "NUM" ]
     "start":              [["partitura", "return $1"]],
     "partitura":          [["partitura PARTITURA", "PARTITURA"],
-                            ["BPM IGUAL NUM TIME IGUAL VALOR_COMPAS lista_compas FIN", "$$ = Partitura($7(Compas($7.length())),$6,$3)"]],
+                            ["BPM IGUAL NUM TIME IGUAL VALOR_COMPAS lista_compas FIN", "$$ = ['partitura',['compas',$7],$6,$3]"]],
     "nodoNota":           [["nodoNota NODONOTA", "NODONOTA"],
                             ["NOTA", "$$ = $1"],
                             ["NOTA ALTERACION", "$$ = $1,$2"]],
     "simbolo":            [["simbolo SIMBOLO", "SIMBOLO"],
-                            ["NOTA BARRA NUM BARRA VALOR", "$$ = Nota($1(NodoNota($1.length())),$3,$5);"],
-                            ["SILENCIO BARRA VALOR", "$$ = Silencio($3);"]],
+                            ["NOTA BARRA NUM BARRA VALOR", "$$ = ['nota',['nodonota',$1,$3,$5]];"],
+                            ["SILENCIO BARRA VALOR", "$$ = ['simbolo',$3];"]],
     "compas":             [["compas COMPAS", "COMPAS"],
-                            ["simbolo_compas", "$$ = Compas($2(Simbolo($2.length())));"]],
+                            ["simbolo_compas", "$$ = ['çompas',['simbolo', $2]];"]],
     "rnota":              [["nodoNota LISTA_NODO_NOTAS", "$$ = LISTA_NODO_NOTA.push($1)"],
                             ["rnota GUION nodoNota LISTA_NODO_NOTAS", "$$ = $1.push($3);$4=$1"]],
-    "simbolo_compas":     [["simbolo", "$$ = simbolo.push($1);return simbolo;"],
-                            ["simbolo_compas simbolo", "$$ = $1.push($2);"]],
-    "lista_compas":       [["compas", "$$ = compas.push($1);return compas;"],
-                            ["lista_compas SIMPLE compas", "$$ = $1.push($2);"],
-                            ["INICIO_REPETICION lista_compas FIN_REPETICION", "$$ = $1.push($2);"]],
+    "simbolo_compas":     [["simbolo", "$$ = [$1];"],
+                            ["simbolo simbolo_compas", "$$ = $1; $$.push($2);"]],
+    "lista_compas":       [["compas", "$$ = [$1];"],
+                            ["compas SIMPLE lista_compas ", "$$ = $1; $$.push($3);"],
+                            ["INICIO_REPETICION lista_compas FIN_REPETICION", "$$ = $1; $$.push($2);"]],
     "signo_igual":        ["signo_igual IGUAL", "IGUAL"],
     "time":               ["time TIME", "TIME"],
     "bpm":                ["bpm BPM", "BPM"],
@@ -167,7 +167,7 @@ export function create(req, res) {
     var input = req.body.input;
     console.log("input: " + stringify(input));
     var gparser = new JParser(grammar);
-    //console.log(stringify(gparser));
+    // console.log(stringify(gparser));
     result = gparser.parse(input);
     console.log("parse: " + stringify(result));
   } catch (err) {

@@ -153,3 +153,5 @@ class Nota {
     track.add(new MidiEvent(off, startTick + tickLength));
   }
 }
+
+module.exports = Nota;

@@ -103,3 +103,5 @@ class Silencio extends Simbolo {
   }
 
 }
+
+module.exports = Silencio;
