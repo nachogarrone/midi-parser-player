@@ -20,79 +20,74 @@ var grammar = {
   "lex": {
     "rules": [
       ["[ \\t\\r\\n\\f]+",    "/* ignore */"],
-      ["=",                 "return 'IGUAL';"],
-      ["time",              "return 'TIME';"],
-      ["bpm",               "return 'BPM';"],
-      ["r",                 "return 'SILENCIO';"],
-      ["-",                 "return 'GUION';"],
+      ["=",                   "return 'IGUAL';"],
+      ["time",                "return 'TIME';"],
+      ["bpm",                 "return 'BPM';"],
+      ["r",                   "return 'SILENCIO';"],
+      ["-",                   "return 'GUION';"],
       ["\\/",                 "return 'BARRA';"],
-      ["\\|\\|",                "return 'FIN';"],
+      ["\\|\\|",              "return 'FIN';"],
       ["\\|:",                "return 'INICIO_REPETICION';"],
       ["\\|",                 "return 'SIMPLE';"],
       [":\\|",                "return 'FIN_REPETICION';"],
-      ["[A-G]",             "return 'NOTA';"],
-      ["[1-8]",             "return 'OCTAVA';"],
-      ["2\\/4|3\\/4|4\\/4|C",  "return 'VALOR_COMPAS';"],
-      ["[0-9]+",            "return 'NUM';"],
-      ["w|h|q|8|16|32|64",  "return 'VALOR';"],
-      ["#{1,2}|@{1,2}|n",   "return 'ALTERACION';"]
+      ["[A-G]",               "return 'NOTA';"],
+      // ["[1-8]",               "return 'OCTAVA';"],
+      ["2\\/4|3\\/4|4\\/4|C", "return 'VALOR_COMPAS';"],
+      ["[0-9]+",              "return 'NUM';"],
+      ["w|h|q|8|16|32|64",    "return 'VALOR';"],
+      ["#{1,2}|@{1,2}|n",     "return 'ALTERACION';"]
     ]
   },
-<<<<<<< HEAD
-
+  // "operators": [
+  //     ["left", "BARRA"]
+  // ],
   "start": "partitura",
-  // "operators": [],
   "bnf": {
-    // "numero" :[ "numero NUM", "NUM" ]
-   // "start":              [["partitura", "return $1"]],
-
-=======
-   "operators": [["left", 'barra']],
-    "start": "partitura",
-  "bnf": {
-    // "numero" :[ "numero NUM", "NUM" ]
->>>>>>> bb9821ed784ac56c792c4c727970967333a09d37
-    "partitura":          [["partitura PARTITURA", ['partitura']],
+    "partitura":          [//["partitura PARTITURA", ['partitura']],
                             ["BPM IGUAL NUM TIME IGUAL VALOR_COMPAS lista_compas FIN", "$$ = ['partitura',['compas',$7],$6,$3]"]],
-    "nodoNota":           [["nodoNota NODONOTA", ['nodonota']],
-                            ["NOTA", "$$ = $1"],
-                            ["NOTA ALTERACION", "$$ = $1,$2"]],
-    "simbolo":            [["simbolo SIMBOLO", ['simbolo']],
-                            ["NOTA BARRA NUM BARRA VALOR", "$$ = ['nota',['nodonota',$1,$3,$5]];"],
-                            ["SILENCIO BARRA VALOR", "$$ = ['simbolo',$3];"]],
-    "compas":             [["compas COMPAS", ['compas']],
-<<<<<<< HEAD
-                            ["simbolo_compas", "$$ = ['compas',['simbolo', $2]];"]],
-=======
-                            ["simbolo_compas", "$$ = ['çompas',['simbolo', $2]];"]],
->>>>>>> bb9821ed784ac56c792c4c727970967333a09d37
-    "rnota":              [["nodoNota LISTA_NODO_NOTAS", "$$ = LISTA_NODO_NOTA.push($1)"],
-                            ["rnota GUION nodoNota LISTA_NODO_NOTAS", "$$ = $1.push($3);$4=$1"]],
-    "simbolo_compas":     [["simbolo", "$$ = [$1];"],
-                            ["simbolo simbolo_compas", "$$ = $1; $$.push($2);"]],
-    "lista_compas":       [["compas", "$$ = [$1];"],
-                            ["compas SIMPLE lista_compas ", "$$ = $1; $$.push($3);"],
-                            ["INICIO_REPETICION lista_compas FIN_REPETICION", "$$ = $1; $$.push($2);"]],
-    "signo_igual":        ["signo_igual IGUAL", ['igual']],
-    "time":               ["time TIME", ['time']],
-    "bpm":                ["bpm BPM", ['bpm']],
-    "silencio":           ["silencio SILENCIO", ['silencio']],
-    "guion":              ["guion GUION", ['guion']],
-    "barra":              ["barra BARRA", ['barra']],
-    "simple":             ["simple SIMPLE", ['simple']],
-    "fin":                ["fin FIN", ['fin']],
-    "inicio_repeticion":  ["inicio_repeticion INICIO_REPETICION", ['inicio_repeticion']],
-    "fin_repeticion":     ["fin_repeticion FIN_REPETICION", ['fin_repeticion']],
-    "nota":               ["nota NOTA", ['nota']],
-<<<<<<< HEAD
-    // "octava":             ["octava OCTAVA", "OCTAVA"],
-=======
-    "octava":             ["octava OCTAVA", ['octava']],
->>>>>>> bb9821ed784ac56c792c4c727970967333a09d37
-    "valor_compas":       ["valor_compas VALOR_COMPAS", ['valor_compas']],
-    "numero":             ["numero NUM", ['num']],
-    "valor":              ["valor VALOR", ['valor']],
-    "alteracion":         ["alteracion ALTERACION", ['alteracion']]
+    "lista_compas":       [
+      ["compas", "$$ = [$1];"],
+      ["compas SIMPLE lista_compas ", "$$ = $1; $$.push($3);"],
+      ["INICIO_REPETICION lista_compas FIN_REPETICION", "$$ = $1; $$.push($2);"]
+    ],
+    "compas":             [
+      ["compas simbolo_compas", "$$ = $1; $1.push($2);"],
+      ["simbolo_compas", "$$ = ['simbolo', $1];"]
+    ],
+    "simbolo_compas":     [
+      ["simbolo", "$$ = [$1];"],
+      ["simbolo_compas simbolo", "$$ = $1; $$.push($2);"]
+    ],
+    "simbolo":            [
+      ["repeatNota BARRA NUM BARRA VALOR", "$$ = ['nota',['nodonota',$1,$3,$5]];"],
+      ["SILENCIO BARRA VALOR", "$$ = ['simbolo',$3];"]
+    ],
+    "repeatNota":              [
+      ["nodoNota LISTA_NODO_NOTAS", "$$ = LISTA_NODO_NOTA.push($1)"],
+      ["repeatNota GUION nodoNota LISTA_NODO_NOTAS", "$$ = $1.push($3);$4=$1"]
+    ],
+    "nodoNota":           [
+      ["nodoNota NODONOTA", ['nodonota']],
+      ["NOTA", "$$ = $1"],
+      ["NOTA ALTERACION", "$$ = $1,$2"]
+    ]
+
+    // "signo_igual":        ["signo_igual IGUAL", ['igual']],
+    // "time":               ["time TIME", ['time']],
+    // "bpm":                ["bpm BPM", ['bpm']],
+    // "silencio":           ["silencio SILENCIO", ['silencio']],
+    // "guion":              ["guion GUION", ['guion']],
+    // "barra":              ["barra BARRA", ['barra']],
+    // "simple":             ["simple SIMPLE", ['simple']],
+    // "fin":                ["fin FIN", ['fin']],
+    // "inicio_repeticion":  ["inicio_repeticion INICIO_REPETICION", ['inicio_repeticion']],
+    // "fin_repeticion":     ["fin_repeticion FIN_REPETICION", ['fin_repeticion']],
+    // "nota":               ["nota NOTA", ['nota']],
+    // "octava":             ["octava OCTAVA", ['octava']],
+    // "valor_compas":       ["valor_compas VALOR_COMPAS", ['valor_compas']],
+    // "numero":             ["numero NUM", ['num']],
+    // "valor":              ["valor VALOR", ['valor']],
+    // "alteracion":         ["alteracion ALTERACION", ['alteracion']]
   }
 };
 
