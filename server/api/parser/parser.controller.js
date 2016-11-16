@@ -12,7 +12,7 @@
 
 import jsonpatch from 'fast-json-patch';
 import Parser from './parser.model';
-import Nota from './ast/Nota';
+import midiParser from './midiparser';
 var JParser = require('jison').Parser;
 var stringify = require('node-stringify');
 
@@ -179,10 +179,29 @@ export function create(req, res) {
   try {
     var input = req.body.input;
     console.log("input: " + stringify(input));
-    var gparser = new JParser(grammar);
-    // console.log(stringify(gparser));
-    result = gparser.parse(input);
-    console.log("parse: " + stringify(result));
+
+    var midiP = midiParser.parser;
+    var result = midiP.parse(input);
+    console.log(stringify(result));
+
+    // ESTO ES PARA GENERAR EL PARSER
+    // var gparser = new JParser(grammar);
+    //
+    // // generate source, ready to be written to disk
+    // var parserSource = gparser.generate();
+    // var fs = require('fs');
+    // fs.writeFile("/tmp/test", parserSource, function(err) {
+    //   if(err) {
+    //     return console.log(err);
+    //   }
+    //
+    //   console.log("The file was saved!");
+    // });
+    //
+    // console.log(stringify(parserSource));
+    // var ress = eval(parserSource).parse(input);
+    // // result = gparser.parse(input);
+    // console.log("parse: " + stringify(ress));
   } catch (err) {
     console.error("Error parsing input: " + err.message +" "+ err.stack);//stringify(err));
   }
@@ -192,7 +211,6 @@ export function create(req, res) {
   } else {
     statusCode = 400;
   }
-  console.log(stringify(result));
   return res.status(statusCode).json(result);
 }
 
