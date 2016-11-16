@@ -51,21 +51,21 @@ var grammar = {
       ["INICIO_REPETICION lista_compas FIN_REPETICION", "$$ = $1; $$.push($2);"]
     ],
     "compas":             [
-      ["compas simbolo_compas", "$$ = $1; $1.push($2);"],
-      ["simbolo_compas", "$$ = ['simbolo', $1];"]
+      ["compas simbolo", "$$ = $1; $1.push($2);"],
+      ["simbolo", "$$ = ['simbolo', $1];"]
     ],
-    "simbolo_compas":     [
-      ["simbolo", "$$ = [$1];"],
-      ["simbolo_compas simbolo", "$$ = $1; $$.push($2);"]
-    ],
+    // "simbolo_compas":     [
+    //   ["simbolo", "$$ = [$1];"],
+    //   ["simbolo_compas simbolo", "$$ = $1; $$.push($2);"]
+    // ],
     "simbolo":            [
-      ["repeatNota BARRA NUM BARRA VALOR", "$$ = ['nota',['nodonota',$1,$3,$5]];"],
+      ["nodoNota BARRA NUM BARRA VALOR", "$$ = ['nota',['nodonota',$1,$3,$5]];"],
       ["SILENCIO BARRA VALOR", "$$ = ['simbolo',$3];"]
     ],
-    "repeatNota":              [
-      ["nodoNota LISTA_NODO_NOTAS", "$$ = LISTA_NODO_NOTA.push($1)"],
-      ["repeatNota GUION nodoNota LISTA_NODO_NOTAS", "$$ = $1.push($3);$4=$1"]
-    ],
+    // "repeatNota":              [
+    //   ["nodoNota LISTA_NODO_NOTAS", "$$ = LISTA_NODO_NOTA.push($1)"],
+    //   ["repeatNota GUION nodoNota LISTA_NODO_NOTAS", "$$ = $1.push($3);$4=$1"]
+    // ],
     "nodoNota":           [
       ["nodoNota NODONOTA", ['nodonota']],
       ["NOTA", "$$ = $1"],
