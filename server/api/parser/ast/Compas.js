@@ -82,6 +82,19 @@ class Compas {
   toString() {
     return "Compas [statements=" + this.statements.toString() + "]";
   }
+
+    compileMIDI(state, track) {
+    try{
+        this.statements.forEach(function (Nota) {
+            Nota.compileMIDI(state, track);
+        });
+        state.clear();
+        return state;
+    } catch(err) {
+      console.log(err.message);
+    }
+  }
+
 }
 
 module.exports = Compas;

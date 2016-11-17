@@ -22,6 +22,9 @@ import NodoNota from './ast/NodoNota';
 
 var JParser = require('jison').Parser;
 var stringify = require('node-stringify');
+var fs = require('fs');
+var Midi = require('jsmidgen');
+
 
 var grammar = {
   "lex": {
@@ -216,9 +219,10 @@ export function create(req, res) {
     console.log(compasImpl.unparse());
     console.log(compasImpl.toString());
 
+      var file = new Midi.File();
 
-
-    // ESTO ES PARA GENERAR EL PARSER
+      fs.writeFileSync('test.mid', file.toBytes(), 'binary');
+      // ESTO ES PARA GENERAR EL PARSER
     // var gparser = new JParser(grammar);
     //
     // // generate source, ready to be written to disk

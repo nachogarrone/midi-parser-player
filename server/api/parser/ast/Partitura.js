@@ -1,11 +1,7 @@
 'use strict';
-
-/**
- * Created by Emanuel Chalela on 31/10/2016.
- */
+var Midi = require('jsmidgen');
 
 class Partitura {
-
   constructor(compases, time, bpm) {
     // super();
     this.compases = compases;
@@ -35,14 +31,21 @@ class Partitura {
   }
 
   compileMIDI(state, fileMidi) {
-    var seq = new Sequence(Sequence.PPQ, 4);
-    var track = seq.createTrack();
-    state.variablesPartitura.put("this.bpm", this.bpm);
-    this.compases.forEach(function () {
-      compileMIDI(state, track);
-    });
-    MidiSystem.write(seq, 1, fileMidi);
-    return state;
+    try{
+        var seq = new Sequence(Sequence.PPQ, 4);
+        var track = new Midi.Track();
+//        file.addTrack(track);
+
+        state.variablesPartitura.put("this.bpm", this.bpm);
+        //this.compases.forEach(function (compas) {
+            compas.compileMIDI(state, track);
+        //});
+      fileMidi.addTrack(track);
+        MidiSystem.write(seq, 1, fileMidi);
+        return state;
+    } catch(err){
+      console.log(err.message);
+    }
   }
 
   toString() {
