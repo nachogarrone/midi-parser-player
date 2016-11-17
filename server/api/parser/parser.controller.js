@@ -13,6 +13,13 @@
 import jsonpatch from 'fast-json-patch';
 import Parser from './parser.model';
 import midiParser from './midiparser';
+
+import Partitura from './ast/Partitura';
+import Compas from './ast/Compas';
+import Simbolo from './ast/Simbolo';
+import Nota from './ast/Nota';
+import NodoNota from './ast/NodoNota';
+
 var JParser = require('jison').Parser;
 var stringify = require('node-stringify');
 
@@ -183,6 +190,33 @@ export function create(req, res) {
     var midiP = midiParser.parser;
     var result = midiP.parse(input);
     console.log(stringify(result));
+
+    var part = result[1];
+    var comp = part[1];
+    var simb = comp[1][0];
+    var not = simb[1];
+    var nodoNot = not[1];
+
+    console.log('*********');
+    console.log(part);
+    console.log(comp);
+    console.log(not);
+    console.log(nodoNot);
+
+    console.log('*********');
+    const nodoNotaImpl = new NodoNota(nodoNot[1]);
+    const notaImpl = new Nota(nodoNot[1],nodoNot[2],nodoNot[3]);
+    const compasImpl = new Compas([notaImpl]);
+    const partituraImpl = new Partitura("", part[2], part[3]);
+    console.log(nodoNotaImpl.toString());
+    console.log(nodoNotaImpl.unparse());
+    console.log(notaImpl.toString());
+    console.log(notaImpl.unparse());
+    console.log(partituraImpl.toString());
+    console.log(compasImpl.unparse());
+    console.log(compasImpl.toString());
+
+
 
     // ESTO ES PARA GENERAR EL PARSER
     // var gparser = new JParser(grammar);

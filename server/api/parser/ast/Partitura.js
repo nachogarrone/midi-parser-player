@@ -4,18 +4,10 @@
  * Created by Emanuel Chalela on 31/10/2016.
  */
 
-class Partitura extends Stmt {
-
-
-  // var
-  // this.compases;
-  // var
-  // this.time;
-  // var
-  // this.bpm;
+class Partitura {
 
   constructor(compases, time, bpm) {
-    super();
+    // super();
     this.compases = compases;
     this.time = time;
     this.bpm = bpm;
@@ -68,3 +60,5 @@ class Partitura extends Stmt {
   }
 
 }
+
+module.exports = Partitura;

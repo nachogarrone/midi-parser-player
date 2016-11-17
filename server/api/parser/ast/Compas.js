@@ -82,48 +82,6 @@ class Compas {
   toString() {
     return "Compas [statements=" + this.statements.toString() + "]";
   }
-
-  hashCode() {
-    var prime = 31;
-    var result = 1;
-    result = prime * result + this.statements.hashCode();
-    return result;
-  }
-
-  arrayEquals(array) {
-    if (!array)
-      return false;
-
-    if (this.length != array.length)
-      return false;
-
-    for (var i = 0, l = this.length; i < l; i++) {
-      if (this[i] instanceof Array && array[i] instanceof Array) {
-        if (!this[i].equals(array[i]))
-          return false;
-      }
-      else if (this[i] != array[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  equals(obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (typeof (this) != typeof (obj))
-      return false;
-    var other = obj;
-    if (other instanceof Compas) {
-      if (!this.statements.equals(other.statements))
-        return false;
-      return true;
-    } else {
-      return false;
-    }
-
-  }
 }
+
+module.exports = Compas;

@@ -29,7 +29,7 @@ class Nota {
       case "64":
         figura = " Semi-fusa";
     }
-    return "";
+    return figura;
   }
 
   semanticCheck(state) {
@@ -107,41 +107,6 @@ class Nota {
 
   toString() {
     return "Nota [notas=" + this.notas.toString() + ", octava=" + this.octava + ", valor=" + this.valor + "]";
-  }
-
-  hashCode() {
-    var prime = 31;
-    var result = 1;
-    result = prime * result + Arrays.hashCode(this.notas);
-    result = prime * result + ((this.octava == null) ? 0 : this.octava.hashCode());
-    result = prime * result + ((this.valor == null) ? 0 : this.valor.hashCode());
-    return result;
-  }
-
-  equals(obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (typeof (this) != typeof (obj))
-      return false;
-    var other = obj;
-    if (other instanceof Nota) {
-      if (!this.notas.equals(other.notas))
-        return false;
-      if (this.octava == null) {
-        if (other.octava != null)
-          return false;
-      } else if (!this.octava.equals(other.octava))
-        return false;
-      if (this.valor == null) {
-        if (other.valor != null)
-          return false;
-      } else if (!this.valor.equals(other.valor))
-        return false;
-      return true;
-    }
-    return false;
   }
 
   addNote(track, startTick, tickLength, key) {

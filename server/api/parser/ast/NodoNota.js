@@ -10,7 +10,8 @@ class NodoNota {
     //var alteracion;
 
     constructor(nombreNota) {
-        this.nombreNota = nombreNota;
+      this.nombre = nombreNota;
+      this.alter = "";
     }
 
     // constructor(nombreNota, alteracion) {
@@ -19,7 +20,7 @@ class NodoNota {
     // }
 
     unparse() {
-        switch (nombreNota) {
+        switch (this.nombre) {
             case "A":
                 return "La";
             case "B":
@@ -39,36 +40,8 @@ class NodoNota {
     }
 
     toString() {
-        return "NodoNota [nombreNota=" + this.nombreNota + ", alteracion=" + this.alteracion + "]";
+        return "NodoNota [nombreNota=" + this.nombre + ", alteracion=" + this.alter + "]";
     }
-
-    hashCode() {
-        var prime = 31;
-        var result = 1;
-        result = prime * result + ((alteracion == null) ? 0 : alteracion.hashCode());
-        result = prime * result + ((nombreNota == null) ? 0 : nombreNota.hashCode());
-        return result;
-    }
-
-    equals(obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        var other = obj;
-        if (alteracion == null) {
-            if (other.alteracion != null)
-                return false;
-        } else if (!alteracion.equals(other.alteracion))
-            return false;
-        if (nombreNota == null) {
-            if (other.nombreNota != null)
-                return false;
-        } else if (!nombreNota.equals(other.nombreNota))
-            return false;
-        return true;
-    }
-
 }
+
+module.exports = NodoNota;

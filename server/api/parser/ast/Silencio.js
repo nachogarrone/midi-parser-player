@@ -4,7 +4,7 @@
  * Created by Emanuel Chalela on 2/11/2016.
  */
 
-class Silencio extends Simbolo {
+class Silencio {
 
 
   // var
