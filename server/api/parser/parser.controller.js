@@ -16,7 +16,6 @@ import midiParser from './midiparser';
 
 import Partitura from './ast/Partitura';
 import Compas from './ast/Compas';
-import Simbolo from './ast/Simbolo';
 import Nota from './ast/Nota';
 import NodoNota from './ast/NodoNota';
 

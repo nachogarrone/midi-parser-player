@@ -11,7 +11,7 @@ class Silencio {
   // valor = null;
 
   constructor(valor) {
-    super();
+    // super();
     this.valor = valor;
   }
 
