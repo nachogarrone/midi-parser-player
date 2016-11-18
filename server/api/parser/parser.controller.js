@@ -177,7 +177,7 @@ export function create(req, res) {
     console.log("**********  NOTAS  ***********");
     var compasImpl = new Compas([]);
     for (var i = 0, len = comp[1].length; i < len; i++) {
-      var notaImpl = new Nota(comp[1][i][1][1][1],comp[1][i][1][1][2],comp[1][i][1][1][3].replace('#',''));
+      var notaImpl = new Nota(comp[1][i][1][1][1], comp[1][i][1][1][2], comp[1][i][1][1][3].replace('#', ''));
       console.log(notaImpl.toString());
       compasImpl.addNota(notaImpl);
     }
@@ -199,10 +199,10 @@ export function create(req, res) {
     track.setTempo(partituraImpl.bpm);
     for (var i = 0, len = compasImpl.statements.length; i < len; i++) {
       var nota = compasImpl.statements[i];
-      track.addNote(0, nota.notas+nota.octava, nota.valor);
+      track.addNote(0, nota.notas + nota.octava, nota.valor);
     }
 
-    fs.writeFileSync('test.mid', file.toBytes(), 'binary');
+    fs.writeFileSync('music.mid', file.toBytes(), 'binary');
     console.log("*******  MIDI GENERADO  **********");
     console.log("**********************************");
 
@@ -225,6 +225,9 @@ export function create(req, res) {
     console.error("Error parsing input: " + err.message + " " + err.stack);//stringify(err));
   }
   var statusCode = 400;
+  if (result != "") {
+    result = true;
+  }
   if (result == true) {
     statusCode = 200;
   } else {
