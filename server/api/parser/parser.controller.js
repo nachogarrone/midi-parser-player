@@ -171,17 +171,28 @@ export function create(req, res) {
 
      var part = result[1];
      var comp = part[1];
-   // var largo=comp.length;
+     var largo=comp[1].length;
+
+
+
+    for (var i = 0, len = comp[1].length; i < len; i++)  {
+       var simb=comp[1][i];
+       var not = simb[1];
+       var nodoNot = not[1];
+     }
+
+
      //var simb = comp[1][0];
      //var not = simb[1];
      //var nodoNot = not[1];
 
      console.log('*********');
-     console.log(part);
-     console.log(comp);
-    //console.log(largo);
-     //console.log(not);
-     //console.log(nodoNot);
+     console.log("partitura"+part);
+     console.log("compas"+comp);
+    console.log("cantidad de simbolos"+largo);
+    console.log("simbolo"+simb);
+     console.log("nota"+not);
+     console.log("nodoNota"+nodoNot);
 
      console.log('*********');
      const nodoNotaImpl = new NodoNota(nodoNot[1]);
