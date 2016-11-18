@@ -14,6 +14,10 @@ class Compas {
     this.statements = statements;
   }
 
+  addNota(nota){
+    this.statements.push(nota);
+  }
+
   unparse() {
     var result = "{ ";
     this.statements.forEach(function (item) {
