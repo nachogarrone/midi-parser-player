@@ -40,63 +40,36 @@ var grammar = {
       ["\\|",                 "return 'SIMPLE';"],
       [":\\|",                "return 'FIN_REPETICION';"],
       ["[A-G]",               "return 'NOTA';"],
-      // ["[1-8]",               "return 'OCTAVA';"],
       ["2\\/4|3\\/4|4\\/4|C", "return 'VALOR_COMPAS';"],
       ["[0-9]+",              "return 'NUM';"],
       ["w|h|q|8|16|32|64",    "return 'VALOR';"],
       ["#{1,2}|@{1,2}|n",     "return 'ALTERACION';"]
     ]
   },
-  // "operators": [
-  //     ["left", "BARRA"]
-  // ],
   "start": "partitura",
   "bnf": {
-    "partitura":          [//["partitura PARTITURA", ['partitura']],
-                            ["BPM IGUAL NUM TIME IGUAL VALOR_COMPAS lista_compas FIN", "$$ = ['partitura',['compas',$7],$6,$3]"]],
+    "partitura":          [
+      ["BPM IGUAL NUM TIME IGUAL VALOR_COMPAS lista_compas FIN", "$$ = ['partitura',['compas',$7],$6,$3]"]
+    ],
     "lista_compas":       [
       ["compas", "$$ = [$1];"],
-      ["compas SIMPLE lista_compas ", "$$ = $1; $$.push($3);"],
-      ["INICIO_REPETICION lista_compas FIN_REPETICION", "$$ = $1; $$.push($2);"]
+      ["SIMPLE compas lista_compas ", "$$ = $2; $$.push($3);"],
+      ["INICIO_REPETICION compas lista_compas", "$$ = $2; $$.push($3);"],
+      ["SIMPLE compas lista_compas FIN_REPETICION ", "$$ = $2; $$.push($3);"]
     ],
     "compas":             [
       ["compas simbolo", "$$ = $1; $1.push($2);"],
       ["simbolo", "$$ = ['simbolo', $1];"]
     ],
-    // "simbolo_compas":     [
-    //   ["simbolo", "$$ = [$1];"],
-    //   ["simbolo_compas simbolo", "$$ = $1; $$.push($2);"]
-    // ],
     "simbolo":            [
       ["nodoNota BARRA NUM BARRA VALOR", "$$ = ['nota',['nodonota',$1,$3,$5]];"],
       ["SILENCIO BARRA VALOR", "$$ = ['simbolo',$3];"]
     ],
-    // "repeatNota":              [
-    //   ["nodoNota LISTA_NODO_NOTAS", "$$ = LISTA_NODO_NOTA.push($1)"],
-    //   ["repeatNota GUION nodoNota LISTA_NODO_NOTAS", "$$ = $1.push($3);$4=$1"]
-    // ],
     "nodoNota":           [
       ["nodoNota NODONOTA", ['nodonota']],
       ["NOTA", "$$ = $1"],
       ["NOTA ALTERACION", "$$ = $1,$2"]
     ]
-
-    // "signo_igual":        ["signo_igual IGUAL", ['igual']],
-    // "time":               ["time TIME", ['time']],
-    // "bpm":                ["bpm BPM", ['bpm']],
-    // "silencio":           ["silencio SILENCIO", ['silencio']],
-    // "guion":              ["guion GUION", ['guion']],
-    // "barra":              ["barra BARRA", ['barra']],
-    // "simple":             ["simple SIMPLE", ['simple']],
-    // "fin":                ["fin FIN", ['fin']],
-    // "inicio_repeticion":  ["inicio_repeticion INICIO_REPETICION", ['inicio_repeticion']],
-    // "fin_repeticion":     ["fin_repeticion FIN_REPETICION", ['fin_repeticion']],
-    // "nota":               ["nota NOTA", ['nota']],
-    // "octava":             ["octava OCTAVA", ['octava']],
-    // "valor_compas":       ["valor_compas VALOR_COMPAS", ['valor_compas']],
-    // "numero":             ["numero NUM", ['num']],
-    // "valor":              ["valor VALOR", ['valor']],
-    // "alteracion":         ["alteracion ALTERACION", ['alteracion']]
   }
 };
 
@@ -187,69 +160,68 @@ export function create(req, res) {
   var result = false;
   try {
     var input = req.body.input;
-    console.log("input: " + stringify(input));
-
-    var midiP = midiParser.parser;
-    var result = midiP.parse(input);
-    console.log(stringify(result));
-
-    var part = result[1];
-    var comp = part[1];
-    var simb = comp[1][0];
-    var not = simb[1];
-    var nodoNot = not[1];
-
-    console.log('*********');
-    console.log(part);
-    console.log(comp);
-    console.log(not);
-    console.log(nodoNot);
-
-    console.log('*********');
-    const nodoNotaImpl = new NodoNota(nodoNot[1]);
-    const notaImpl = new Nota(nodoNot[1],nodoNot[2],nodoNot[3]);
-    const compasImpl = new Compas([notaImpl]);
-    const partituraImpl = new Partitura("", part[2], part[3]);
-    console.log(nodoNotaImpl.toString());
-    console.log(nodoNotaImpl.unparse());
-    console.log(notaImpl.toString());
-    console.log(notaImpl.unparse());
-    console.log(partituraImpl.toString());
-    console.log(compasImpl.unparse());
-    console.log(compasImpl.toString());
-
-      var file = new Midi.File();
-    var track = new Midi.Track();
-    file.addTrack(track);
-
-    track.addNote(0, 'c4', 64);
-    track.addNote(0, 'd4', 64);
-    track.addNote(0, 'e4', 64);
-    track.addNote(0, 'f4', 64);
-    track.addNote(0, 'g4', 64);
-    track.addNote(0, 'a4', 64);
-    track.addNote(0, 'b4', 64);
-    track.addNote(0, 'c5', 64);
-
-      fs.writeFileSync('test.mid', file.toBytes(), 'binary');
-      // ESTO ES PARA GENERAR EL PARSER
-    // var gparser = new JParser(grammar);
+    // console.log("input: " + stringify(input));
     //
-    // // generate source, ready to be written to disk
-    // var parserSource = gparser.generate();
-    // var fs = require('fs');
-    // fs.writeFile("/tmp/test", parserSource, function(err) {
-    //   if(err) {
-    //     return console.log(err);
-    //   }
+    // var midiP = midiParser.parser;
+    // var result = midiP.parse(input);
+    // console.log(stringify(result));
     //
-    //   console.log("The file was saved!");
-    // });
+    // var part = result[1];
+    // var comp = part[1];
+    // var simb = comp[1][0];
+    // var not = simb[1];
+    // var nodoNot = not[1];
     //
-    // console.log(stringify(parserSource));
-    // var ress = eval(parserSource).parse(input);
-    // // result = gparser.parse(input);
-    // console.log("parse: " + stringify(ress));
+    // console.log('*********');
+    // console.log(part);
+    // console.log(comp);
+    // console.log(not);
+    // console.log(nodoNot);
+    //
+    // console.log('*********');
+    // const nodoNotaImpl = new NodoNota(nodoNot[1]);
+    // const notaImpl = new Nota(nodoNot[1],nodoNot[2],nodoNot[3]);
+    // const compasImpl = new Compas([notaImpl]);
+    // const partituraImpl = new Partitura("", part[2], part[3]);
+    // console.log(nodoNotaImpl.toString());
+    // console.log(nodoNotaImpl.unparse());
+    // console.log(notaImpl.toString());
+    // console.log(notaImpl.unparse());
+    // console.log(partituraImpl.toString());
+    // console.log(compasImpl.unparse());
+    // console.log(compasImpl.toString());
+    //
+    //   var file = new Midi.File();
+    // var track = new Midi.Track();
+    // file.addTrack(track);
+    //
+    // // addNote(canal, pith(numero o simbolo), duracion)
+    // track.addNote(0, notaImpl.notas+notaImpl.octava, 64);
+    // // track.addNote(0, 'd4', 64);
+    // // track.addNote(0, 'e4', 64);
+    // // track.addNote(0, 'f4', 64);
+    // // track.addNote(0, 'g4', 64);
+    // // track.addNote(0, 'a4', 64);
+    // // track.addNote(0, 'b4', 64);
+    // // track.addNote(0, 'c5', 64);
+    //
+    //   fs.writeFileSync('test.mid', file.toBytes(), 'binary');
+
+
+    // ESTO ES PARA GENERAR EL PARSER
+    var gparser = new JParser(grammar);
+
+    // generate source, ready to be written to disk
+    var parserSource = gparser.generate();
+    var fs = require('fs');
+    fs.writeFile("/tmp/test.js", parserSource, function(err) {
+      if(err) {
+        return console.log(err);
+      }
+      console.log("The file was saved!");
+    });
+    console.log(stringify(parserSource));
+
   } catch (err) {
     console.error("Error parsing input: " + err.message +" "+ err.stack);//stringify(err));
   }

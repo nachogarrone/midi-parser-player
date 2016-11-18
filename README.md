@@ -28,3 +28,4 @@ Run `gulp build` for building and `gulp serve` for preview.
 Running `npm test` will run the unit tests with karma.
 
 Example:  bpm = 60 time = 4/4 C/2/w ||
+bpm = 60 time = 4/4 |: C/2/w | C/2/w | C/2/w :| ||
