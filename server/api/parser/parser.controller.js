@@ -53,9 +53,10 @@ var grammar = {
     ],
     "lista_compas":       [
       ["compas", "$$ = [$1];"],
-      ["SIMPLE compas lista_compas ", "$$ = $2; $$.push($3);"],
-      ["INICIO_REPETICION compas lista_compas", "$$ = $2; $$.push($3);"],
-      ["SIMPLE compas lista_compas FIN_REPETICION ", "$$ = $2; $$.push($3);"]
+      ["SIMPLE compas lista_compas ", "$$ = $3; $$.push($2);"],
+      ["SIMPLE compas", "$$ = $2;"],
+      ["INICIO_REPETICION compas lista_compas", "$$ = $3; $$.push($2);"],
+      ["SIMPLE compas FIN_REPETICION ", "$$ = $2;"]
     ],
     "compas":             [
       ["compas simbolo", "$$ = $1; $1.push($2);"],
@@ -160,67 +161,69 @@ export function create(req, res) {
   var result = false;
   try {
     var input = req.body.input;
-    // console.log("input: " + stringify(input));
-    //
-    // var midiP = midiParser.parser;
-    // var result = midiP.parse(input);
-    // console.log(stringify(result));
-    //
-    // var part = result[1];
-    // var comp = part[1];
-    // var simb = comp[1][0];
-    // var not = simb[1];
-    // var nodoNot = not[1];
-    //
-    // console.log('*********');
-    // console.log(part);
-    // console.log(comp);
-    // console.log(not);
-    // console.log(nodoNot);
-    //
-    // console.log('*********');
-    // const nodoNotaImpl = new NodoNota(nodoNot[1]);
-    // const notaImpl = new Nota(nodoNot[1],nodoNot[2],nodoNot[3]);
-    // const compasImpl = new Compas([notaImpl]);
-    // const partituraImpl = new Partitura("", part[2], part[3]);
-    // console.log(nodoNotaImpl.toString());
-    // console.log(nodoNotaImpl.unparse());
-    // console.log(notaImpl.toString());
-    // console.log(notaImpl.unparse());
-    // console.log(partituraImpl.toString());
-    // console.log(compasImpl.unparse());
-    // console.log(compasImpl.toString());
-    //
-    //   var file = new Midi.File();
-    // var track = new Midi.Track();
-    // file.addTrack(track);
-    //
-    // // addNote(canal, pith(numero o simbolo), duracion)
-    // track.addNote(0, notaImpl.notas+notaImpl.octava, 64);
-    // // track.addNote(0, 'd4', 64);
-    // // track.addNote(0, 'e4', 64);
-    // // track.addNote(0, 'f4', 64);
-    // // track.addNote(0, 'g4', 64);
-    // // track.addNote(0, 'a4', 64);
-    // // track.addNote(0, 'b4', 64);
-    // // track.addNote(0, 'c5', 64);
-    //
-    //   fs.writeFileSync('test.mid', file.toBytes(), 'binary');
+    console.log("input: " + stringify(input));
+
+     var midiP = midiParser.parser;
+     var result = midiP.parse(input);
+     console.log(stringify(result));
+
+     var part = result[1];
+     var comp = part[1];
+    var largo=comp.length;
+     //var simb = comp[1][0];
+     //var not = simb[1];
+     //var nodoNot = not[1];
+
+     console.log('*********');
+     console.log(part);
+     console.log(comp);
+    console.log(largo);
+     //console.log(not);
+     //console.log(nodoNot);
+
+     console.log('*********');
+     const nodoNotaImpl = new NodoNota(nodoNot[1]);
+     const notaImpl = new Nota(nodoNot[1],nodoNot[2],nodoNot[3]);
+     const compasImpl = new Compas([notaImpl]);
+     const partituraImpl = new Partitura("", part[2], part[3]);
+     console.log(nodoNotaImpl.toString());
+     console.log(nodoNotaImpl.unparse());
+     console.log(notaImpl.toString());
+     console.log(notaImpl.unparse());
+     console.log(partituraImpl.toString());
+     console.log(compasImpl.unparse());
+     console.log(compasImpl.toString());
+
+     var file = new Midi.File();
+     var track = new Midi.Track();
+     file.addTrack(track);
+
+    // addNote(canal, pith(numero o simbolo), duracion)
+    track.addNote(0, notaImpl.notas+notaImpl.octava, 64);
+    // track.addNote(0, 'd4', 64);
+    // track.addNote(0, 'e4', 64);
+    // track.addNote(0, 'f4', 64);
+    // track.addNote(0, 'g4', 64);
+    // track.addNote(0, 'a4', 64);
+    // track.addNote(0, 'b4', 64);
+    // track.addNote(0, 'c5', 64);
+
+      fs.writeFileSync('test.mid', file.toBytes(), 'binary');
 
 
     // ESTO ES PARA GENERAR EL PARSER
-    var gparser = new JParser(grammar);
-
-    // generate source, ready to be written to disk
-    var parserSource = gparser.generate();
-    var fs = require('fs');
-    fs.writeFile("/tmp/test.js", parserSource, function(err) {
-      if(err) {
-        return console.log(err);
-      }
-      console.log("The file was saved!");
-    });
-    console.log(stringify(parserSource));
+    // var gparser = new JParser(grammar);
+    //
+    // // generate source, ready to be written to disk
+    // var parserSource = gparser.generate();
+    // var fs = require('fs');
+    // fs.writeFile("/tmp/test.js", parserSource, function(err) {
+    //   if(err) {
+    //     return console.log(err);
+    //   }
+    //   console.log("The file was saved!");
+    // });
+    // console.log(stringify(parserSource));
 
   } catch (err) {
     console.error("Error parsing input: " + err.message +" "+ err.stack);//stringify(err));
