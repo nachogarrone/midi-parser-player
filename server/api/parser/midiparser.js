@@ -96,19 +96,16 @@ var parser = (function(){
           this.$ = $$[$0];
           break;
         case 6:
-          this.$ = $$[$0-1];
+          this.$ = [$$[$0-1]];
           break;
         case 7:
-          this.$ = $$[$0-1]; $$[$0-1].push($$[$0]);
+          this.$ = $$[$0-1]; $$[$0].push($$[$0-1]);
           break;
-        case 8:
-          this.$ = ['simbolo', $$[$0]];
-          break;
+        case 8: case 10:
+        this.$ = ['simbolo',$$[$0]];
+        break;
         case 9:
           this.$ = ['nota',['nodonota',$$[$0-4],$$[$0-2],$$[$0]]];
-          break;
-        case 10:
-          this.$ = ['simbolo',$$[$0]];
           break;
         case 12:
           this.$ = $$[$0]

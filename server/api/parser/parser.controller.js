@@ -53,15 +53,17 @@ var grammar = {
     ],
     "lista_compas":       [
       ["compas", "$$ = [$1];"],
-      ["SIMPLE compas lista_compas ", "$$ = $3; $$.push($2);"],
-      ["SIMPLE compas", "$$ = $2;"],
-      ["INICIO_REPETICION compas lista_compas", "$$ = $3; $$.push($2);"],
-      ["SIMPLE compas FIN_REPETICION ", "$$ = $2;"]
+      ["SIMPLE compas lista_compas ", "$$ = $3; $$.push($2);"], //este estaba al reves el push   //sq este era el posta
+      ["SIMPLE compas", "$$ = $2;"],// sq este
+      ["INICIO_REPETICION compas lista_compas", "$$ = $3; $$.push($2);"], //este estaba al reves el push //este falta
+      ["SIMPLE compas FIN_REPETICION ", "$$ = [$2];"]//este
+
     ],
     "compas":             [
-      ["compas simbolo", "$$ = $1; $1.push($2);"],
-      ["simbolo", "$$ = ['simbolo', $1];"]
+      ["compas simbolo", "$$ = $1; $2.push($1);"], //sq este
+      ["simbolo", "$$ = ['simbolo',$1];"]//este //falta
     ],
+
     "simbolo":            [
       ["nodoNota BARRA NUM BARRA VALOR", "$$ = ['nota',['nodonota',$1,$3,$5]];"],
       ["SILENCIO BARRA VALOR", "$$ = ['simbolo',$3];"]
@@ -169,7 +171,7 @@ export function create(req, res) {
 
      var part = result[1];
      var comp = part[1];
-    var largo=comp.length;
+   // var largo=comp.length;
      //var simb = comp[1][0];
      //var not = simb[1];
      //var nodoNot = not[1];
@@ -177,7 +179,7 @@ export function create(req, res) {
      console.log('*********');
      console.log(part);
      console.log(comp);
-    console.log(largo);
+    //console.log(largo);
      //console.log(not);
      //console.log(nodoNot);
 
@@ -223,7 +225,7 @@ export function create(req, res) {
     //   }
     //   console.log("The file was saved!");
     // });
-    // console.log(stringify(parserSource));
+    //   console.log(stringify(parserSource));
 
   } catch (err) {
     console.error("Error parsing input: " + err.message +" "+ err.stack);//stringify(err));
