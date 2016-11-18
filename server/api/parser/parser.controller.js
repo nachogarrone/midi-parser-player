@@ -42,7 +42,7 @@ var grammar = {
       ["[A-G]", "return 'NOTA';"],
       ["2\\/4|3\\/4|4\\/4|C", "return 'VALOR_COMPAS';"],
       ["[0-9]+", "return 'NUM';"],
-      ["w|h|q|8|16|32|64", "return 'VALOR';"],
+      ["w|h|q|#8|#16|#32|#64", "return 'VALOR';"],
       ["#{1,2}|@{1,2}|n", "return 'ALTERACION';"]
     ]
   },
@@ -177,7 +177,7 @@ export function create(req, res) {
     console.log("**********  NOTAS  ***********");
     var compasImpl = new Compas([]);
     for (var i = 0, len = comp[1].length; i < len; i++) {
-      var notaImpl = new Nota(comp[1][i][1][1][1],comp[1][i][1][1][2],comp[1][i][1][1][3]);
+      var notaImpl = new Nota(comp[1][i][1][1][1],comp[1][i][1][1][2],comp[1][i][1][1][3].replace('#',''));
       console.log(notaImpl.toString());
       compasImpl.addNota(notaImpl);
     }
@@ -196,9 +196,10 @@ export function create(req, res) {
     var track = new Midi.Track();
     file.addTrack(track);
 
+    track.setTempo(partituraImpl.bpm);
     for (var i = 0, len = compasImpl.statements.length; i < len; i++) {
       var nota = compasImpl.statements[i];
-      track.addNote(0, nota.notas+nota.octava, 64);
+      track.addNote(0, nota.notas+nota.octava, nota.valor);
     }
 
     fs.writeFileSync('test.mid', file.toBytes(), 'binary');
